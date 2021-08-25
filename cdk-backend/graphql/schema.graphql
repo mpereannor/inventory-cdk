@@ -1,0 +1,46 @@
+type Item {
+  id: String!
+  name: String!
+  desc: String!
+}
+
+input CreateItemInput {
+  id: String
+  name: String!
+  desc: String!
+}
+
+input UpdateItemInput {
+  id: String!
+  name: String
+  desc: String
+}
+
+type Query {
+  listItems: [Item]
+  getItemById(itemId: String!): Item
+}
+
+# type Mutation {
+#   createItem(item: CreateItemInput!): Item
+#   deleteItem(itemId: String!): String
+#   updateItem(item: UpdateItemInput!): Item
+# }
+
+# For anyone else who was seeing a CREATE_FAILED AWS::AppSync::GraphQLSchema "Schema Creation Status is FAILED with details: Schema has the following errors: - The subscription has an invalid output type." output when attempting the cdk deploy step, go into the schema.graphql file and change the three Mutation types (create/delete/update Post) to all return "Post!" instead of Post String and Post as seen in the video. Either CloudFormation or the CDK library or the AppSync library or etc. must have changed between November 2020 and now to cause that error.
+
+type Mutation {
+  createItem(item: CreateItemInput!): Item!
+  deleteItem(itemId: String!): Item!
+  updateItem(item: UpdateItemInput!): Item!
+}
+
+type Subscription {
+  onCreateItem: Item
+    @aws_subscribe(mutations: ["createItem"])
+  onUpdateItem: Item
+    @aws_subscribe(mutations: ["updateItem"])
+  onDeleteItem: Item
+    @aws_subscribe(mutations: ["deleteItem"])
+}
+
