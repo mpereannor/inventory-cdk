@@ -6,7 +6,8 @@ async function createItem(item: Item) {
   if (!item.id) item.id = uuid();
   const { id, name, desc } = item;
   try {
-    const query = `INSERT INTO posts (id, name, desc) VALUES(:id, :name, :content)`;
+    // painful error => SQL QUERY params saved as keywords must still be wrapped in double quotes: desc => "desc"
+    const query = `INSERT INTO items (id,name,"desc") VALUES(:id, :name, :desc)`;
     await db.query(query, { id, name, desc });
     return item;
   } catch (err) {

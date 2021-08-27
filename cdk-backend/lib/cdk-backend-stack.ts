@@ -3,7 +3,6 @@ import * as appsync from "@aws-cdk/aws-appsync";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as rds from "@aws-cdk/aws-rds";
 import * as ec2 from "@aws-cdk/aws-ec2";
-// import * as path from "path";
 
 
 export class CdkBackendStack extends cdk.Stack {
@@ -14,7 +13,6 @@ export class CdkBackendStack extends cdk.Stack {
 
     const api = new appsync.GraphqlApi(this, "Api", {
       name: "appsync-inventory-backend",
-      // schema: appsync.Schema.fromAsset(path.join(__dirname, '../graphql/schema.graphql')),
       schema: appsync.Schema.fromAsset('graphql/schema.graphql'),
 
       authorizationConfig: {

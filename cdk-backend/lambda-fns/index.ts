@@ -7,15 +7,15 @@ import Item from "./Item";
 
 type AppSyncEvent = {
   info: {
-    fieldName: string;
-  };
+    fieldName: string
+  },
   arguments: {
-    item: Item;
-    itemId: string;
-  };
-};
+    item: Item,
+    itemId: string
+  }
+}
 
-exports.handler = async (event: AppSyncEvent) => {
+exports.handler = async (event:AppSyncEvent) => {
   switch (event.info.fieldName) {
     case "createItem":
       return await createItem(event.arguments.item);
