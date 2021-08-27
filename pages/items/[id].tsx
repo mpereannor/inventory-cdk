@@ -1,11 +1,10 @@
 import { API } from 'aws-amplify'
-import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
 const listItems = `
 query listItems { 
     listItems { 
-        id 
+        id name desc
     }
 }
 `
@@ -19,7 +18,7 @@ const getItem = `
 `
 
 
-export default function Item({ item }: AppProps) {
+export default function Item({ item } ) {
     const router = useRouter()
     if(router.isFallback) { 
         return <h2>Loading...</h2>
@@ -38,7 +37,7 @@ export async function getStaticPaths() {
     const itemData = await API.graphql({ 
         query: listItems
     })
-    const paths = itemData.data.listItems.items.map(item => ( { params: { id: item.id }}))
+    const paths = itemData.data.listItems.map(item => ({ params: { id: item.id }}))
     return { 
         paths, 
         fallback: true
@@ -47,12 +46,12 @@ export async function getStaticPaths() {
 export async function getStaticProps({params}) {
         const { id } = params
         const itemData = await API.graphql( { 
-            query: getItem, variables: { id }
+            query: getItem, variables: { itemId: id }
         })
         return { 
             props: {
 
-                item : itemData.data.getItem
+                item : itemData.data.getItemById
             }
         }
 }

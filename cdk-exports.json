@@ -1,0 +1,8 @@
+{
+    "CdkBackendStack": {
+      "AppSyncAPIURL": "https://nmjs5dpn4bebnnkzxb34qks6aa.appsync-api.eu-west-2.amazonaws.com/graphql",
+      "AppSyncAPIKey": "da2-a5mvvyxgrje6bosj54tsok6vra",
+      "ProjectRegion": "eu-west-2"
+    }
+  }
+  

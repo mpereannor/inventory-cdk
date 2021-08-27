@@ -1,11 +1,16 @@
 import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { API } from 'aws-amplify'
+
+import Amplify from 'aws-amplify'
+import config from '../aws-exports'
+Amplify.configure(config)
 
 const listItems = `
 query listItems { 
     listItems { 
-        id 
+        id name desc
     }
 }
 `
@@ -16,6 +21,8 @@ export default function Items() {
             const itemData = await API.graphql({ 
                 query: listItems
             })
+            console.log("itemData: ", itemData)
+            setItems(itemData.data.listItems)
         }
         fetchItems()
         
@@ -24,7 +31,7 @@ export default function Items() {
         <div className={styles.container}>
             { 
             items.map(item => (
-                <Link to={`/items/${item.id}`}>
+                <Link key={item.id} href={`/items/${item.id}`}>
                 <a>{item.name}</a>
                 </Link>
             ))}
